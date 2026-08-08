@@ -67,7 +67,6 @@ export default function App() {
       audioRef.current.pause();
       setIsPlaying(false);
     } else {
-      audioRef.current.load();
       audioRef.current.play()
         .then(() => {
           setIsPlaying(true);
@@ -117,11 +116,13 @@ export default function App() {
                 .then(() => setIsPlaying(true))
                 .catch(() => setIsPlaying(false));
             }
-            window.removeEventListener('pointerdown', handleFirstInteraction);
+            window.removeEventListener('click', handleFirstInteraction);
+            window.removeEventListener('touchstart', handleFirstInteraction);
             window.removeEventListener('keydown', handleFirstInteraction);
           };
 
-          window.addEventListener('pointerdown', handleFirstInteraction, { once: true });
+          window.addEventListener('click', handleFirstInteraction, { once: true });
+          window.addEventListener('touchstart', handleFirstInteraction, { once: true });
           window.addEventListener('keydown', handleFirstInteraction, { once: true });
         });
       }
