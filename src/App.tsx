@@ -101,7 +101,6 @@ export default function App() {
     const audio = audioRef.current;
     if (!audio) return;
 
-    audio.load();
     if (isPlaying) {
       const playPromise = audio.play();
       if (playPromise !== undefined) {
