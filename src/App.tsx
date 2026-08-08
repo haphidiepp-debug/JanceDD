@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { X, Loader2, ArrowUp, Music, Play, Pause, SkipForward, SkipBack, Square, ListMusic, ArrowLeft, ExternalLink, Search } from 'lucide-react';
+import { X, Loader2, ArrowUp, Music, Play, Pause, SkipForward, SkipBack, Square, ListMusic, ArrowLeft, ExternalLink, Search, Flower2 } from 'lucide-react';
 import { db } from './lib/firebase';
 import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
 import { motion, AnimatePresence } from 'motion/react';
@@ -28,6 +28,7 @@ function handleFirestoreError(error: unknown, operationType: OperationType, path
 }
 
 export default function App() {
+  const [hasEntered, setHasEntered] = useState(false);
   const [feedback, setFeedback] = useState('');
   const [selectedChar, setSelectedChar] = useState<any>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -331,11 +332,105 @@ Quan hệ tam giới— Ma giới và Tu chân giới đối đầu suốt trăm
     }
   };
 
+  const handleEnter = () => {
+    setHasEntered(true);
+    if (audioRef.current) {
+      audioRef.current.play()
+        .then(() => setIsPlaying(true))
+        .catch(() => setIsPlaying(false));
+    }
+  };
+
   return (
-    <div 
-      className="min-h-screen bg-black text-white font-sans selection:bg-red-600 selection:text-white bg-cover bg-center bg-fixed relative"
-      style={{ backgroundImage: `url('/bg-portrait.jpg')` }}
-    >
+    <>
+      {/* Audio Player is mounted outside so it can continue playing across views */}
+      <audio 
+        ref={audioRef} 
+        src={songs[currentSongIndex].url} 
+        preload="auto"
+        onEnded={nextSong}
+      />
+
+      <AnimatePresence mode="wait">
+        {!hasEntered ? (
+          <motion.div
+            key="intro"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0, scale: 1.05 }}
+            transition={{ duration: 0.8, ease: "easeInOut" }}
+            className="fixed inset-0 z-[200] flex flex-col items-center justify-between py-12 px-4 bg-gradient-to-b from-[#140000] via-[#0a0000] to-[#000000] text-white"
+          >
+            <DustParticles />
+            
+            <motion.div 
+              initial={{ opacity: 0, y: -20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.3 }}
+              className="uppercase tracking-[0.3em] text-[10px] md:text-xs font-semibold text-zinc-400 mt-8 drop-shadow-md"
+            >
+              Góc nhỏ của JanceD
+            </motion.div>
+
+            <div className="flex flex-col items-center flex-1 justify-center space-y-12 w-full max-w-sm relative z-10">
+              <motion.div
+                initial={{ scale: 0.8, opacity: 0 }}
+                animate={{ scale: 1, opacity: 1 }}
+                transition={{ delay: 0.5, duration: 1 }}
+                className="w-24 h-24 rounded-full bg-red-950/20 flex items-center justify-center shadow-[0_0_40px_rgba(220,38,38,0.15)] border border-red-900/20"
+              >
+                <Flower2 className="w-10 h-10 text-red-500/80" />
+              </motion.div>
+              
+              <div className="text-center space-y-6">
+                <motion.h1 
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.7 }}
+                  className="font-serif italic text-4xl md:text-5xl tracking-wider text-zinc-100 drop-shadow-md"
+                >
+                  Enter the Garden
+                </motion.h1>
+                <motion.div 
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ delay: 0.9 }}
+                  className="text-zinc-400 text-sm leading-relaxed font-light"
+                >
+                  <p>Bước vào khu vườn nơi</p>
+                  <p>mật ngọt và nọc độc cùng nở hoa.</p>
+                </motion.div>
+              </div>
+
+              <motion.button
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 1.1 }}
+                onClick={handleEnter}
+                className="mt-8 px-10 py-3 rounded-[30px] bg-red-950/20 border border-red-900/40 hover:bg-red-900/30 hover:border-red-500/50 hover:shadow-[0_0_20px_rgba(220,38,38,0.2)] transition-all text-xs font-semibold tracking-[0.2em] uppercase text-zinc-200"
+              >
+                Mở cổng
+              </motion.button>
+            </div>
+
+            <motion.div 
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 1.3 }}
+              className="font-serif italic text-zinc-500 text-[11px] tracking-widest mb-4"
+            >
+              Every sweetness leaves a mark.
+            </motion.div>
+          </motion.div>
+        ) : (
+          <motion.div 
+            key="main"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 1 }}
+            className="min-h-screen bg-black text-white font-sans selection:bg-red-600 selection:text-white bg-cover bg-center bg-fixed relative"
+            style={{ backgroundImage: `url('/bg-portrait.jpg')` }}
+          >
       <div className="absolute inset-0 bg-black/40 z-0 pointer-events-none"></div>
       <DustParticles />
       
@@ -456,54 +551,40 @@ Quan hệ tam giới— Ma giới và Tu chân giới đối đầu suốt trăm
       <AnimatePresence>
         {selectedChar && (
           <motion.div 
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.25 }}
-            className="fixed inset-0 z-[100] flex items-center justify-center p-2 sm:p-4 bg-black/85 backdrop-blur-md overflow-y-auto" 
-            onClick={() => setSelectedChar(null)}
+            initial={{ x: '100%' }}
+            animate={{ x: 0 }}
+            exit={{ x: '100%' }}
+            transition={{ type: "spring", bounce: 0, duration: 0.35 }}
+            className="fixed inset-0 z-[100] bg-black/60 backdrop-blur-2xl overflow-y-auto flex flex-col" 
           >
-            <motion.div 
-              initial={{ opacity: 0, y: 60, scale: 0.95 }}
-              animate={{ opacity: 1, y: 0, scale: 1 }}
-              exit={{ opacity: 0, y: 40, scale: 0.96 }}
-              transition={{ type: "spring", damping: 26, stiffness: 320 }}
-              className="bg-zinc-950 border border-red-900/40 rounded-2xl md:rounded-3xl w-full max-w-xl overflow-hidden flex flex-col max-h-[92vh] shadow-2xl shadow-red-950/40 relative my-auto"
-              onClick={e => e.stopPropagation()}
-            >
+            <div className="w-full max-w-2xl mx-auto flex flex-col min-h-full pb-10">
               {/* Top Navigation Bar inside Modal */}
-              <div className="sticky top-0 z-20 bg-zinc-950/90 backdrop-blur-md px-4 py-3 border-b border-zinc-800/80 flex items-center justify-between">
+              <div className="sticky top-0 z-20 bg-black/40 backdrop-blur-md px-4 py-3 flex items-center justify-center relative border-b border-zinc-800/50">
                 <button 
                   onClick={() => setSelectedChar(null)}
-                  className="flex items-center gap-2 text-zinc-300 hover:text-white transition-colors text-sm font-medium"
+                  className="p-2 text-zinc-400 hover:text-white transition-colors absolute left-2"
                 >
-                  <ArrowLeft className="w-5 h-5 text-red-500" />
-                  <div className="text-left leading-tight">
-                    <p className="font-bold text-white text-sm line-clamp-1">{selectedChar.name}</p>
-                    <p className="text-[10px] text-zinc-400 font-normal line-clamp-1">{selectedChar.desc}</p>
-                  </div>
+                  <ArrowLeft className="w-5 h-5" />
                 </button>
-                <button 
-                  onClick={() => setSelectedChar(null)}
-                  className="p-1.5 bg-zinc-900 hover:bg-red-600 text-zinc-400 hover:text-white rounded-full transition-colors ml-2"
-                >
-                  <X className="w-4 h-4" />
-                </button>
+                <div className="text-center leading-tight px-10">
+                  <p className="font-bold text-white text-[15px] line-clamp-1">{selectedChar.name}</p>
+                  <p className="text-[11px] text-zinc-400 font-normal line-clamp-1 italic">{selectedChar.desc}</p>
+                </div>
               </div>
 
               {selectedChar.images && selectedChar.images.length > 0 ? (
-                <div className="relative h-72 md:h-96 w-full bg-zinc-900 shrink-0 overflow-x-auto flex snap-x snap-mandatory [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
+                <div className="relative h-72 md:h-96 w-full shrink-0 overflow-x-auto flex snap-x snap-mandatory [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
                   {selectedChar.images.map((img: string, idx: number) => (
                     <div key={idx} className="relative w-full h-full shrink-0 snap-center">
                       <img src={img} alt={`${selectedChar.name} ${idx + 1}`} className="w-full h-full object-cover" />
-                      <div className="absolute inset-0 bg-gradient-to-t from-zinc-950 via-zinc-950/20 to-transparent"></div>
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
                     </div>
                   ))}
                 </div>
               ) : (
-                <div className="relative h-64 md:h-72 w-full bg-zinc-900 shrink-0">
+                <div className="relative h-64 md:h-72 w-full shrink-0">
                   <img src={selectedChar.imageUrl} alt={selectedChar.name} className="w-full h-full object-cover" />
-                  <div className="absolute inset-0 bg-gradient-to-t from-zinc-950 to-transparent"></div>
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent"></div>
                 </div>
               )}
               
@@ -540,10 +621,14 @@ Quan hệ tam giới— Ma giới và Tu chân giới đối đầu suốt trăm
                 </motion.a>
                 
                 <div className="space-y-4 pt-2">
-                  <div>
-                    <h4 className="text-xs font-bold text-red-500 uppercase tracking-widest mb-1">MÔ TẢ</h4>
-                    <p className="text-zinc-300 leading-relaxed text-sm bg-zinc-900/40 border border-zinc-800/60 p-3.5 rounded-xl">{selectedChar.fullDesc}</p>
-                  </div>
+                  {selectedChar.backstory && (
+                    <div className="px-1">
+                      <h4 className="text-xs font-bold text-red-500 uppercase tracking-widest mb-3">MỞ ĐẦU</h4>
+                      <div className="text-zinc-300 text-sm whitespace-pre-wrap leading-relaxed">
+                        {selectedChar.backstory}
+                      </div>
+                    </div>
+                  )}
 
                   {selectedChar.profile && (
                     <details className="group border border-zinc-800/80 rounded-xl bg-zinc-900/40 open:bg-zinc-900/70 transition-colors">
@@ -557,18 +642,6 @@ Quan hệ tam giới— Ma giới và Tu chân giới đối đầu suốt trăm
                     </details>
                   )}
                   
-                  {selectedChar.backstory && (
-                    <details className="group border border-zinc-800/80 rounded-xl bg-zinc-900/40 open:bg-zinc-900/70 transition-colors">
-                      <summary className="font-bold text-sm text-zinc-200 cursor-pointer p-4 select-none flex justify-between items-center list-none [&::-webkit-details-marker]:hidden">
-                        BACKSTORY
-                        <span className="text-zinc-500 group-open:rotate-180 transition-transform">▼</span>
-                      </summary>
-                      <div className="px-4 pb-4 text-zinc-300 text-sm whitespace-pre-wrap leading-relaxed border-t border-zinc-800/50 pt-3">
-                        {selectedChar.backstory}
-                      </div>
-                    </details>
-                  )}
-
                   {selectedChar.worldBuilding && (
                     <details className="group border border-zinc-800/80 rounded-xl bg-zinc-900/40 open:bg-zinc-900/70 transition-colors">
                       <summary className="font-bold text-sm text-zinc-200 cursor-pointer p-4 select-none flex justify-between items-center list-none [&::-webkit-details-marker]:hidden">
@@ -593,17 +666,8 @@ Quan hệ tam giới— Ma giới và Tu chân giới đối đầu suốt trăm
                     </details>
                   )}
                 </div>
-                
-                <div className="pt-4 flex justify-end">
-                  <button 
-                    onClick={() => setSelectedChar(null)}
-                    className="w-full py-2.5 rounded-xl text-sm font-medium text-zinc-400 hover:text-white hover:bg-zinc-900 transition-colors border border-zinc-800"
-                  >
-                    Đóng
-                  </button>
-                </div>
               </div>
-            </motion.div>
+            </div>
           </motion.div>
         )}
       </AnimatePresence>
@@ -746,6 +810,9 @@ Quan hệ tam giới— Ma giới và Tu chân giới đối đầu suốt trăm
         </div>
       </div>
       </div>
-    </div>
+      </motion.div>
+      )}
+      </AnimatePresence>
+    </>
   );
 }
