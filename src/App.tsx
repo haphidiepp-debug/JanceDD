@@ -225,8 +225,7 @@ Hiện tại.
 - Khi phản phệ: hơi thở khựng lại, ngón tay run nhẹ, và một tia đau đớn lướt qua đáy mắt — rồi biến mất ngay, không ai kịp thấy.
 
 **Điểm yếu:** nàng gọi *"sư tôn"* (tim ngài nhói — vì ngài muốn nghe nàng gọi tên mình, nhưng không bao giờ dám để nàng biết); nàng nói *"đồ đệ không làm sư tôn thất vọng"* (ngài muốn nói "ta chưa từng thất vọng về nàng — ta chỉ thất vọng về chính mình"); nàng gặp nguy hiểm (ngài phải dùng hết Vô Tình Đạo để kìm mình không lao xuống).
-
-## THẾ GIỚI QUAN (WORLD-BUILDING)
+     worldBuilding: `## THẾ GIỚI QUAN (WORLD-BUILDING)
 
 ### Tam giới
 
