@@ -1,0 +1,27 @@
+{
+  "entities": {
+    "Feedback": {
+      "title": "Feedback",
+      "description": "Anonymous feedback submitted by users.",
+      "type": "object",
+      "properties": {
+        "message": {
+          "type": "string",
+          "description": "The content of the feedback",
+          "maxLength": 5000
+        },
+        "createdAt": {
+          "type": "timestamp",
+          "description": "The time the feedback was submitted"
+        }
+      },
+      "required": ["message", "createdAt"]
+    }
+  },
+  "firestore": {
+    "feedbacks/{feedbackId}": {
+      "schema": "Feedback",
+      "description": "Stores anonymous feedback from users."
+    }
+  }
+}
