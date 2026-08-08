@@ -10,7 +10,8 @@ const ASSETS = [
   { id: '1XxUF7xa4udVa3653IDlGfjz0qUN0n1YV', name: 'bg-landscape.jpg' },
   { id: '1PvF3nnsKdWG9Fj3MyT_Sb8F0-sQ1MXdP', name: 'bg-portrait.jpg' },
   { id: '155CeucAqWMWIP6nkgDwF0lyT00kxBRp0', name: 'song1.mp3' },
-  { id: '1UFHMyYrP5jJDNxCZX_xiVYmMR9AeJj4y', name: 'song2.mp3' }
+  { id: '1UFHMyYrP5jJDNxCZX_xiVYmMR9AeJj4y', name: 'song2.mp3' },
+  { id: '1uqKcSu5V0jtCE1sbqIzq7G5XfV0NtiAH', name: 'sebastian.jpg' }
 ];
 
 const publicDir = path.join(__dirname, '..', 'public');
