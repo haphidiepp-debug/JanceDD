@@ -137,7 +137,7 @@ export default function App() {
       name: 'Lục Viêm / Đông Hoa', 
       desc: 'Ma Tôn kiêu ngạo, tàn bạo, cả đời chỉ chịu thua một người. Đông Hoa Đế Quân vô tình, vô dục, lại vì một người mà dao động.', 
       fullDesc: 'Ma Tôn Lục Viêm: Tàn bạo, ngang tàng, hoành hành khắp tam giới. Ánh mắt đỏ sẫm như máu, nụ cười khinh bạc, nhưng lại giấu một sự dịu dàng thô lỗ vụng về dành riêng cho bạn. \n\nĐông Hoa Đế Quân: Vị thần sống trên chín tầng trời, dung mạo đoan chính, mi mắt dài, ánh mắt thâm sâu như vực thẳm vạn trượng. Tu Vô Tình Đạo, nhưng lại chịu đựng sự phản phệ hàng trăm năm vì động tình với đồ đệ duy nhất.',
-      imageUrl: '/lucviem.jpg',
+      imageUrl: 'https://drive.google.com/thumbnail?id=1YbEXDPLBN9H58XLid7oC5NukoKt5lci3',
       link: 'https://aistudio.google.com/app/prompts?state=%7B%22ids%22:%5B%2210XrL3Ok6Eh1Y4jUMw6vGYyHDImQLcu3E%22%5D,%22action%22:%22open%22,%22userId%22:%22101971935439665447652%22,%22resourceKeys%22:%7B%7D%7D&usp=sharing',
       status: 'Trending',
       tags: ['cổ trang', 'tu tiên', 'ngược', 'tình thầy trò', 'oan gia ngõ hẹp', '2 in 1', 'chiếm hữu'],
