@@ -952,9 +952,13 @@ Nàng đứng đó, ôm chặt cái thùng nước vừa được trả lại, �
             animate={{ x: 0 }}
             exit={{ x: '100%' }}
             transition={{ type: "spring", bounce: 0, duration: 0.35 }}
-            className="fixed inset-0 z-[100] bg-black/60 backdrop-blur-2xl overflow-y-auto flex flex-col" 
+            className="fixed inset-0 z-[100] bg-cover bg-center bg-fixed overflow-y-auto flex flex-col" 
+            style={{ backgroundImage: `url('/bg-portrait.jpg')` }}
           >
-            <div className="w-full max-w-2xl mx-auto flex flex-col min-h-full pb-10">
+            {/* Lớp overlay nhẹ để đảm bảo text vẫn dễ nhìn, nhưng background ảnh vẫn rõ 100% */}
+            <div className="absolute inset-0 bg-black/40 z-0 pointer-events-none"></div>
+
+            <div className="w-full max-w-2xl mx-auto flex flex-col min-h-full pb-10 relative z-10">
               {/* Top Navigation Bar inside Modal */}
               <div className="sticky top-0 z-20 bg-black/40 backdrop-blur-md px-4 py-3 flex items-center justify-center relative border-b border-zinc-800/50">
                 <button 
@@ -972,14 +976,14 @@ Nàng đứng đó, ôm chặt cái thùng nước vừa được trả lại, �
               {selectedChar.images && selectedChar.images.length > 0 ? (
                 <div className="relative h-72 md:h-96 w-full shrink-0 overflow-x-auto flex snap-x snap-mandatory [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
                   {selectedChar.images.map((img: string, idx: number) => (
-                    <div key={idx} className="relative w-full h-full shrink-0 snap-center bg-black">
+                    <div key={idx} className="relative w-full h-full shrink-0 snap-center bg-black/40 backdrop-blur-2xl">
                       <img src={img} alt={`${selectedChar.name} ${idx + 1}`} className="w-full h-full object-contain" />
                       <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent pointer-events-none"></div>
                     </div>
                   ))}
                 </div>
               ) : (
-                <div className="relative h-64 md:h-72 w-full shrink-0 bg-black">
+                <div className="relative h-64 md:h-72 w-full shrink-0 bg-black/40 backdrop-blur-2xl">
                   <img src={selectedChar.imageUrl} alt={selectedChar.name} className="w-full h-full object-contain" />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent pointer-events-none"></div>
                 </div>
@@ -1028,7 +1032,7 @@ Nàng đứng đó, ôm chặt cái thùng nước vừa được trả lại, �
                   )}
 
                   {selectedChar.profile && (
-                    <details className="group border border-zinc-800/80 rounded-xl bg-zinc-900/40 open:bg-zinc-900/70 transition-colors">
+                    <details className="group border border-zinc-800/80 rounded-xl bg-zinc-900/40 backdrop-blur-md open:bg-zinc-900/70 transition-colors">
                       <summary className="font-bold text-sm text-zinc-200 cursor-pointer p-4 select-none flex justify-between items-center list-none [&::-webkit-details-marker]:hidden">
                         HỒ SƠ NHÂN VẬT
                         <span className="text-zinc-500 group-open:rotate-180 transition-transform">▼</span>
@@ -1040,7 +1044,7 @@ Nàng đứng đó, ôm chặt cái thùng nước vừa được trả lại, �
                   )}
                   
                   {selectedChar.worldBuilding && (
-                    <details className="group border border-zinc-800/80 rounded-xl bg-zinc-900/40 open:bg-zinc-900/70 transition-colors">
+                    <details className="group border border-zinc-800/80 rounded-xl bg-zinc-900/40 backdrop-blur-md open:bg-zinc-900/70 transition-colors">
                       <summary className="font-bold text-sm text-zinc-200 cursor-pointer p-4 select-none flex justify-between items-center list-none [&::-webkit-details-marker]:hidden">
                         WORLD-BUILDING
                         <span className="text-zinc-500 group-open:rotate-180 transition-transform">▼</span>
@@ -1052,7 +1056,7 @@ Nàng đứng đó, ôm chặt cái thùng nước vừa được trả lại, �
                   )}
                   
                   {selectedChar.firstMess && (
-                    <details className="group border border-zinc-800/80 rounded-xl bg-zinc-900/40 open:bg-zinc-900/70 transition-colors">
+                    <details className="group border border-zinc-800/80 rounded-xl bg-zinc-900/40 backdrop-blur-md open:bg-zinc-900/70 transition-colors">
                       <summary className="font-bold text-sm text-zinc-200 cursor-pointer p-4 select-none flex justify-between items-center list-none [&::-webkit-details-marker]:hidden">
                         FIRST MESS
                         <span className="text-zinc-500 group-open:rotate-180 transition-transform">▼</span>
